@@ -1,3 +1,5 @@
+import { SAVE_CURRENCIES } from '../actions/saveCurrencies';
+
 const INITIAL_STATE = {
   wallet: {
     currencies: [],
@@ -9,6 +11,11 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case SAVE_CURRENCIES:
+    return {
+      ...state.wallet,
+      currencies: action.payload,
+    };
   default:
     return state;
   }
