@@ -54,5 +54,12 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-  expenses: PropTypes.shape({}),
+  expenses: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType(
+        PropTypes.string,
+        PropTypes.number,
+      ),
+    ),
+  ),
 };
