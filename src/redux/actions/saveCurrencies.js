@@ -2,9 +2,9 @@ import currencies from '../../services/currenciesAPi';
 
 export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 
-export const saveCurrencies = (token) => ({
+export const saveCurrencies = (data) => ({
   type: SAVE_CURRENCIES,
-  payload: token,
+  data,
 });
 
 export function fetchCurrencies() {

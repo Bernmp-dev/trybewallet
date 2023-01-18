@@ -15,7 +15,4 @@ class Carteira extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => (
-//   { currencies: state.wallet.currencies });
-
 export default connect()(Carteira);
