@@ -21,9 +21,11 @@ class Header extends Component {
 
     return (
       <header>
-        <h1 data-testid="email-field">{email}</h1>
+        <span data-testid="email-field">{email}</span>
+        <br />
         <span data-testid="total-field">{renderExpenses}</span>
-        <h1 data-testid="header-currency-field">BRL</h1>
+        <br />
+        <span data-testid="header-currency-field"> BRL</span>
       </header>
     );
   }

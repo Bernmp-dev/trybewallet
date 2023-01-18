@@ -42,6 +42,8 @@ class WalletForm extends Component {
       method,
       tag,
       exchangeRates: data,
+      convertedValue,
+      ask: filteredRates.ask,
     };
 
     dispatch(saveExpenses(expensesData, convertedValue));
@@ -132,7 +134,7 @@ WalletForm.defaultProps = {
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.objectOf(PropTypes.string),
+  data: PropTypes.oneOfType(PropTypes.string, PropTypes.shape({})),
 };
 
 // PropTypes.shape({
