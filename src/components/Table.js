@@ -6,9 +6,11 @@ class Table extends Component {
   render() {
     const { expenses } = this.props;
 
+    const fix = (number) => Number(number).toFixed(2);
+
     return (
       <table>
-        <tbody>
+        <thead>
           <tr>
             <th>Descrição</th>
             <th>Tag</th>
@@ -20,16 +22,17 @@ class Table extends Component {
             <th>Moeda de conversão</th>
             <th>Editar/Excluir</th>
           </tr>
-
+        </thead>
+        <tbody>
           {expenses.map((item, i) => (
             <tr key={ i }>
               <td>{item.description}</td>
               <td>{item.tag}</td>
               <td>{item.method}</td>
-              <td>{item.value}</td>
+              <td>{fix(item.value)}</td>
               <td>{item.nameToName}</td>
-              <td>{item.ask}</td>
-              <td>{parseFloat(item.convertedValue.toFixed(2))}</td>
+              <td>{fix(item.ask)}</td>
+              <td>{fix(item.convertedValue)}</td>
               <td>Real</td>
               <td>
                 <button type="button">editar</button>
