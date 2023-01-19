@@ -3,34 +3,37 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies } from '../redux/actions/saveCurrencies';
 import { saveExpenses } from '../redux/actions/saveExpenses';
+import { editExpense } from '../redux/actions/editExpenses';
+import { overwriteExpense } from '../redux/actions/OverwriteExpense';
 
-class WalletForm extends Component {
-  state = {
-    value: '',
-    description: '',
-    currency: 'USD',
-    method: 'Dinheiro',
-    tag: 'Alimentação',
-    expenses: [],
-  };
+
+class EditForm extends Component {
+  constructor(props) {
+    super(props);
+    const { expenses, idToEdit, dispatch } = props;
+    dispatch(fetchCurrencies());
+    const selectedExpense = expenses.filter(({ id }) => id === idToEdit);
+    const { id, value, description, currency,
+      method, tag, exchangeRates } = selectedExpense[0];
+
+    this.state = { id, value, description,
+      currency, method, tag, exchangeRates,
+    };
+  }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchCurrencies());
   }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
 
-  handleExpenses = ({ expenses, value, description,
+  closeEdit = ({ value, description,
     currency, method, tag }) => {
-    const { dispatch, data } = this.props;
-
-    dispatch(fetchCurrencies());
+    const { dispatch, data, expenses, idToEdit } = this.props;
 
     const expensesData = {
-      id: expenses.length,
+      id: idToEdit,
       value,
       description,
       currency,
@@ -39,21 +42,19 @@ class WalletForm extends Component {
       exchangeRates: data,
     };
 
-    dispatch(saveExpenses(expensesData));
+    const itemIndex = expenses.findIndex(obj => obj.id === idToEdit);
 
-    this.setState({
-      value: '',
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-      expenses: [...expenses, expensesData],
-    });
+    const newArray = expenses.map((val, i) => i === itemIndex ? expensesData : val);
+
+    dispatch(overwriteExpense(newArray));
+    dispatch(editExpense(0, false));
   };
 
   render() {
-    const { currencies: mapCurrencies, idToEdit, edit } = this.props;
-    const { value, description } = this.state;
+    const { expenses, currencies: mapCurrencies, idToEdit, editor } = this.props;
+    const { value, description, method, tag, currency } = this.state;
+    const index = expenses.findIndex(obj => obj.id === idToEdit);
+
     return (
       <form>
         <input
@@ -76,6 +77,7 @@ class WalletForm extends Component {
           name="currency"
           data-testid="currency-input"
           onChange={ (e) => this.handleChange(e) }
+          defaultValue={ currency }
         >
           {mapCurrencies && mapCurrencies
             .map((item, i) => <option key={ i } value={ item }>{ item }</option>)}
@@ -84,6 +86,7 @@ class WalletForm extends Component {
           name="method"
           data-testid="method-input"
           onChange={ (e) => this.handleChange(e) }
+          defaultValue={ method }
         >
           <option value="Dinheiro">Dinheiro</option>
           <option value="Cartão de crédito">Cartão de crédito</option>
@@ -93,6 +96,8 @@ class WalletForm extends Component {
           name="tag"
           data-testid="tag-input"
           onChange={ (e) => this.handleChange(e) }
+          defaultValue={ tag }
+
         >
           <option value="Alimentação">Alimentação</option>
           <option value="Lazer">Lazer</option>
@@ -102,9 +107,9 @@ class WalletForm extends Component {
         </select>
         <button
           type="reset"
-          onClick={ () => this.handleExpenses(this.state) }
+          onClick={ () => this.closeEdit(this.state) }
         >
-          Adicionar Despesa
+          Editar Despesa
         </button>
 
       </form>
@@ -114,19 +119,20 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => (
   { currencies: state.wallet.currencies,
+    expenses: state.wallet.expenses,
     data: state.wallet.data,
-    edit: state.wallet.edit,
+    editor: state.wallet.editor,
     idToEdit: state.wallet.idToEdit,
   });
 
-export default connect(mapStateToProps)(WalletForm);
+export default connect(mapStateToProps)(EditForm);
 
-WalletForm.defaultProps = {
+EditForm.defaultProps = {
   currencies: ['USD'],
   data: {},
 };
 
-WalletForm.propTypes = {
+EditForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
   data: PropTypes.oneOfType(PropTypes.string, PropTypes.shape({})),
