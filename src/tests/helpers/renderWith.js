@@ -39,7 +39,7 @@ export function renderWithRouter(
 export function renderWithRedux(component, options = {}) {
   const {
     initialState = {},
-    store = legacy_createStore(rootReducer, initialState, applyMiddleware(thunk)),
+    store = createStore(rootReducer, initialState, applyMiddleware(thunk)),
   } = options;
 
   return {
