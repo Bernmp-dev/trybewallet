@@ -15,6 +15,7 @@ class Header extends Component {
   render() {
     const { email } = this.state;
     const { convertedValues } = this.props;
+    console.log(convertedValues);
 
     const result = convertedValues.reduce((acc, curr) => acc + curr, 0);
     const renderExpenses = parseFloat(result.toFixed(2));

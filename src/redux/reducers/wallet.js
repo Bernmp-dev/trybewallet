@@ -4,6 +4,7 @@ import { SAVE_EXPENSES } from '../actions/saveExpenses';
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
+  expenses2: [],
   data: [],
   convertedValues: [],
   editor: false,
@@ -22,7 +23,8 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: [...state.expenses, action.expenses],
-      convertedValues: [...state.convertedValues, action.convertedValues],
+      expenses2: [...state.expenses2, action.expenses2],
+      convertedValues: [...state.convertedValues, action.convertedValue],
     };
   default:
     return state;

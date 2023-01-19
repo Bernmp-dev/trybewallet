@@ -42,11 +42,22 @@ class WalletForm extends Component {
       method,
       tag,
       exchangeRates: data,
-      convertedValue,
-      ask: filteredRates.ask,
     };
 
-    dispatch(saveExpenses(expensesData, convertedValue));
+    const expensesData2 = {
+      id: expenses.length,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: data,
+      convertedValue,
+      ask: filteredRates.ask,
+      nameToName: filteredRates.name,
+    };
+
+    dispatch(saveExpenses(expensesData, expensesData2, convertedValue));
 
     this.setState({
       value: '',

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class Table extends Component {
   render() {
     const { expenses } = this.props;
-    console.log(expenses);
+
     return (
       <table>
         <tbody>
@@ -27,10 +27,10 @@ class Table extends Component {
               <td>{item.tag}</td>
               <td>{item.method}</td>
               <td>{item.value}</td>
-              <td>{item.currency}</td>
+              <td>{item.nameToName}</td>
               <td>{item.ask}</td>
               <td>{parseFloat(item.convertedValue.toFixed(2))}</td>
-              <td>BRL</td>
+              <td>Real</td>
               <td>
                 <button type="button">editar</button>
                 <button type="button">excluir</button>
@@ -44,7 +44,7 @@ class Table extends Component {
 }
 
 const mapStateToProps = (state) => (
-  { expenses: state.wallet.expenses,
+  { expenses: state.wallet.expenses2,
   });
 
 export default connect(mapStateToProps)(Table);
