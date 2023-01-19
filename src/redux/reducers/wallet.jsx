@@ -30,17 +30,17 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...action.expenses],
     };
-    case EDIT_EXPENSE:
-      return {
-        ...state,
-        editor: action.editor,
-        idToEdit: action.idToEdit,
-      };
-      case OVERWRITE_EXPENSE:
-        return {
-          ...state,
-          expenses: action.expenses,
-        };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      editor: action.editor,
+      idToEdit: action.idToEdit,
+    };
+  case OVERWRITE_EXPENSE:
+    return {
+      ...state,
+      expenses: action.expenses,
+    };
   default:
     return state;
   }

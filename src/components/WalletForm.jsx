@@ -52,7 +52,7 @@ class WalletForm extends Component {
   };
 
   render() {
-    const { currencies: mapCurrencies, idToEdit, edit } = this.props;
+    const { currencies: mapCurrencies } = this.props;
     const { value, description } = this.state;
     return (
       <form>

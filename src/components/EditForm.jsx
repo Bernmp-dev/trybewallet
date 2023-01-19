@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies } from '../redux/actions/saveCurrencies';
-import { saveExpenses } from '../redux/actions/saveExpenses';
 import { editExpense } from '../redux/actions/editExpenses';
 import { overwriteExpense } from '../redux/actions/OverwriteExpense';
-
 
 class EditForm extends Component {
   constructor(props) {
@@ -16,8 +14,14 @@ class EditForm extends Component {
     const { id, value, description, currency,
       method, tag, exchangeRates } = selectedExpense[0];
 
-    this.state = { id, value, description,
-      currency, method, tag, exchangeRates,
+    this.state = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
     };
   }
 
@@ -42,18 +46,17 @@ class EditForm extends Component {
       exchangeRates: data,
     };
 
-    const itemIndex = expenses.findIndex(obj => obj.id === idToEdit);
+    const itemIndex = expenses.findIndex((obj) => obj.id === idToEdit);
 
-    const newArray = expenses.map((val, i) => i === itemIndex ? expensesData : val);
+    const newArray = expenses.map((val, i) => (i === itemIndex ? expensesData : val));
 
     dispatch(overwriteExpense(newArray));
     dispatch(editExpense(0, false));
   };
 
   render() {
-    const { expenses, currencies: mapCurrencies, idToEdit, editor } = this.props;
+    const { currencies: mapCurrencies } = this.props;
     const { value, description, method, tag, currency } = this.state;
-    const index = expenses.findIndex(obj => obj.id === idToEdit);
 
     return (
       <form>
@@ -132,10 +135,23 @@ EditForm.defaultProps = {
   data: {},
 };
 
+EditForm.defaultProps = {
+  expenses: {},
+};
+
 EditForm.propTypes = {
+  idToEdit: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
   data: PropTypes.oneOfType(PropTypes.string, PropTypes.shape({})),
+  expenses: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType(
+        PropTypes.string,
+        PropTypes.number,
+      ),
+    ),
+  ),
 };
 
 // PropTypes.shape({
