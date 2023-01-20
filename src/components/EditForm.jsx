@@ -143,14 +143,30 @@ EditForm.propTypes = {
   idToEdit: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.oneOfType(PropTypes.string, PropTypes.shape({})),
+  data: PropTypes.objectOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      codein: PropTypes.string,
+      name: PropTypes.string,
+      high: PropTypes.string,
+      low: PropTypes.string,
+      varBid: PropTypes.string,
+      pctChange: PropTypes.string,
+      bid: PropTypes.string,
+      ask: PropTypes.string,
+      timestamp: PropTypes.string,
+      create_date: PropTypes.string,
+    }),
+  ),
   expenses: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType(
-        PropTypes.string,
-        PropTypes.number,
-      ),
-    ),
+    PropTypes.objectOf({
+      id: PropTypes.number.isRequired,
+      value: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+      method: PropTypes.string.isRequired,
+      tag: PropTypes.string.isRequired,
+    }),
   ),
 };
 

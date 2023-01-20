@@ -50,11 +50,13 @@ Header.defaultProps = {
 
 Header.propTypes = {
   expenses: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType(
-        PropTypes.string,
-        PropTypes.number,
-      ),
-    ),
+    PropTypes.objectOf({
+      id: PropTypes.number.isRequired,
+      value: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+      method: PropTypes.string.isRequired,
+      tag: PropTypes.string.isRequired,
+    }),
   ),
 };

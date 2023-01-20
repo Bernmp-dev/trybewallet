@@ -129,7 +129,21 @@ WalletForm.defaultProps = {
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.oneOfType(PropTypes.string, PropTypes.shape({})),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      codein: PropTypes.string,
+      name: PropTypes.string,
+      high: PropTypes.string,
+      low: PropTypes.string,
+      varBid: PropTypes.string,
+      pctChange: PropTypes.string,
+      bid: PropTypes.string,
+      ask: PropTypes.string,
+      timestamp: PropTypes.string,
+      create_date: PropTypes.string,
+    }),
+  ),
 };
 
 // PropTypes.shape({
