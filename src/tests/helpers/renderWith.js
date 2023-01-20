@@ -51,7 +51,6 @@ export function renderWithRedux(component, options = {}) {
 export const renderWithRouterAndReduxTest = (component, initialState, route = '/') => {
   const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
   const history = createMemoryHistory({ initialEntries: [route] });
-  console.log(initialState);
 
   return {
     ...render(
