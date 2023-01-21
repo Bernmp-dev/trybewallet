@@ -7,7 +7,6 @@ import { editExpense } from '../redux/actions/editExpenses';
 class Table extends Component {
   deleteOnclick = (id) => {
     const { expenses, dispatch } = this.props;
-
     const deleteExpense = expenses.filter((item) => id !== item.id);
 
     // const fixDelArray = deleteExpense
@@ -25,11 +24,8 @@ class Table extends Component {
     const { expenses } = this.props;
 
     const fix = (number) => Number(number).toFixed(2);
-
-    // const convertIt = (object) => object.reduce((acc, curr) => {
-    //   acc += curr.value * curr.exchangeRates[curr.currency].ask;
-    //   return acc;
-    // }, 0);
+    const mil = 1000;
+    const random = Math.floor(Math.random() * mil) + 1;
 
     return (
       <table>
@@ -48,7 +44,7 @@ class Table extends Component {
         </thead>
         <tbody>
           {expenses.map((item) => (
-            <tr key={ item.id }>
+            <tr key={ Number(item.id) + random }>
               <td>{item.description}</td>
               <td>{item.tag}</td>
               <td>{item.method}</td>
@@ -82,25 +78,28 @@ class Table extends Component {
 }
 
 const mapStateToProps = (state) => (
-  { expenses: state.wallet.expenses,
+  {
+    expenses: state.wallet.expenses,
   });
 
 export default connect(mapStateToProps)(Table);
 
-Table.defaultProps = {
-  expenses: {},
-};
-
 Table.propTypes = {
   dispatch: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(
-    PropTypes.objectOf({
-      id: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      method: PropTypes.string.isRequired,
-      tag: PropTypes.string.isRequired,
+    PropTypes.shape({
+      id: PropTypes.number,
+      value: PropTypes.string,
+      description: PropTypes.string,
+      currency: PropTypes.string,
+      method: PropTypes.string,
+      tag: PropTypes.string,
+      exchangeRates: PropTypes.shape({
+        [PropTypes.string]: PropTypes.shape({
+          ask: PropTypes.string,
+          name: PropTypes.string,
+        }),
+      }),
     }),
-  ),
+  ).isRequired,
 };

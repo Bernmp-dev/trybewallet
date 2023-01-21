@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies } from '../redux/actions/saveCurrencies';
 import { editExpense } from '../redux/actions/editExpenses';
-import { overwriteExpense } from '../redux/actions/OverwriteExpense';
+import { fetchEdit } from '../redux/actions/OverwriteExpense';
 
 class EditForm extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class EditForm extends Component {
     dispatch(fetchCurrencies());
     const selectedExpense = expenses.filter(({ id }) => id === idToEdit);
     const { id, value, description, currency,
-      method, tag, exchangeRates } = selectedExpense[0];
+      method, tag } = selectedExpense[0];
 
     this.state = {
       id,
@@ -21,7 +21,6 @@ class EditForm extends Component {
       currency,
       method,
       tag,
-      exchangeRates,
     };
   }
 
@@ -34,7 +33,7 @@ class EditForm extends Component {
 
   closeEdit = ({ value, description,
     currency, method, tag }) => {
-    const { dispatch, data, expenses, idToEdit } = this.props;
+    const { dispatch, idToEdit, expenses } = this.props;
 
     const expensesData = {
       id: idToEdit,
@@ -43,20 +42,17 @@ class EditForm extends Component {
       currency,
       method,
       tag,
-      exchangeRates: data,
     };
 
     const itemIndex = expenses.findIndex((obj) => obj.id === idToEdit);
 
-    const newArray = expenses.map((val, i) => (i === itemIndex ? expensesData : val));
-
-    dispatch(overwriteExpense(newArray));
+    dispatch(fetchEdit(expenses, expensesData, itemIndex));
     dispatch(editExpense(0, false));
   };
 
   render() {
     const { currencies: mapCurrencies } = this.props;
-    const { value, description, method, tag, currency } = this.state;
+    const { value, description, method, tag, currency } = this.props;
 
     return (
       <form>
@@ -100,7 +96,6 @@ class EditForm extends Component {
           data-testid="tag-input"
           onChange={ (e) => this.handleChange(e) }
           defaultValue={ tag }
-
         >
           <option value="Alimentação">Alimentação</option>
           <option value="Lazer">Lazer</option>
@@ -109,7 +104,7 @@ class EditForm extends Component {
           <option value="Saúde">Saúde</option>
         </select>
         <button
-          type="reset"
+          type="button"
           onClick={ () => this.closeEdit(this.state) }
         >
           Editar Despesa
@@ -132,54 +127,25 @@ export default connect(mapStateToProps)(EditForm);
 
 EditForm.defaultProps = {
   currencies: ['USD'],
-  data: {},
-};
-
-EditForm.defaultProps = {
-  expenses: {},
 };
 
 EditForm.propTypes = {
   idToEdit: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.objectOf(
-    PropTypes.shape({
-      code: PropTypes.string,
-      codein: PropTypes.string,
-      name: PropTypes.string,
-      high: PropTypes.string,
-      low: PropTypes.string,
-      varBid: PropTypes.string,
-      pctChange: PropTypes.string,
-      bid: PropTypes.string,
-      ask: PropTypes.string,
-      timestamp: PropTypes.string,
-      create_date: PropTypes.string,
-    }),
-  ),
   expenses: PropTypes.arrayOf(
-    PropTypes.objectOf({
-      id: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      method: PropTypes.string.isRequired,
-      tag: PropTypes.string.isRequired,
+    PropTypes.shape({
+      id: PropTypes.number,
+      value: PropTypes.string,
+      description: PropTypes.string,
+      currency: PropTypes.string,
+      method: PropTypes.string,
+      tag: PropTypes.string,
+      exchangeRates: PropTypes.shape({
+        [PropTypes.string]: PropTypes.shape({
+          ask: PropTypes.string,
+        }),
+      }),
     }),
-  ),
+  ).isRequired,
 };
-
-// PropTypes.shape({
-//   code: PropTypes.string,
-//   codein: PropTypes.string,
-//   name: PropTypes.string,
-//   high: PropTypes.string,
-//   low: PropTypes.string,
-//   varBid: PropTypes.string,
-//   pctChange: PropTypes.string,
-//   bid: PropTypes.string,
-//   ask: PropTypes.string,
-//   timestamp: PropTypes.string,
-//   create_date: PropTypes.string,
-// }),

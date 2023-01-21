@@ -10,6 +10,7 @@ export const saveCurrencies = (data) => ({
 export function fetchCurrencies() {
   return async (dispatch) => {
     const response = await currencies();
-    dispatch(saveCurrencies(response));
+    const currencieKeys = Object.keys(response).filter((item) => item !== 'USDT');
+    dispatch(saveCurrencies(currencieKeys));
   };
 }

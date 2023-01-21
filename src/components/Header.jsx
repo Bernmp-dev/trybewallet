@@ -3,32 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Header extends Component {
-  state = {
-    email: '',
-  };
-
-  componentDidMount() {
-    const storedEmail = localStorage.getItem('email');
-    this.setState({ email: storedEmail });
-  }
-
   render() {
-    const { email } = this.state;
-    const { expenses } = this.props;
+    const defEmail = localStorage.getItem('email');
+    const { expenses, email = defEmail } = this.props;
 
     const result = expenses.reduce((acc, curr) => {
       acc += curr.value * curr.exchangeRates[curr.currency].ask;
       return acc;
     }, 0);
-    const renderExpenses = parseFloat(result.toFixed(2));
 
-    const fix = (number) => Number(number).toFixed(2);
+    const totalValue = parseFloat(result.toFixed(2));
 
     return (
       <header>
         <span data-testid="email-field">{email}</span>
         <br />
-        <span data-testid="total-field">{fix(renderExpenses)}</span>
+        <span data-testid="total-field">{totalValue || '0.00'}</span>
         <br />
         <span data-testid="header-currency-field"> BRL</span>
       </header>
@@ -45,18 +35,24 @@ const mapStateToProps = (state) => (
 export default connect(mapStateToProps)(Header);
 
 Header.defaultProps = {
-  expenses: {},
+  email: localStorage.getItem('email') || 'teste@trybe.com',
 };
 
 Header.propTypes = {
+  email: PropTypes.string,
   expenses: PropTypes.arrayOf(
-    PropTypes.objectOf({
-      id: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      method: PropTypes.string.isRequired,
-      tag: PropTypes.string.isRequired,
+    PropTypes.shape({
+      id: PropTypes.number,
+      value: PropTypes.string,
+      description: PropTypes.string,
+      currency: PropTypes.string,
+      method: PropTypes.string,
+      tag: PropTypes.string,
+      exchangeRates: PropTypes.shape({
+        [PropTypes.string]: PropTypes.shape({
+          ask: PropTypes.string,
+        }),
+      }),
     }),
-  ),
+  ).isRequired,
 };

@@ -7,7 +7,6 @@ import { OVERWRITE_EXPENSE } from '../actions/OverwriteExpense';
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  data: [],
   editor: false,
   idToEdit: 0,
 };
@@ -17,8 +16,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   case SAVE_CURRENCIES:
     return {
       ...state,
-      currencies: Object.keys(action.data).filter((item) => item !== 'USDT'),
-      data: action.data,
+      currencies: action.data,
     };
   case SAVE_EXPENSES:
     return {

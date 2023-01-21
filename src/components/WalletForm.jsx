@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies } from '../redux/actions/saveCurrencies';
-import { saveExpenses } from '../redux/actions/saveExpenses';
+import { fetchData } from '../redux/actions/saveExpenses';
 
 class WalletForm extends Component {
   state = {
+    id: 0,
     value: '',
     description: '',
     currency: 'USD',
@@ -23,11 +24,9 @@ class WalletForm extends Component {
     this.setState({ [name]: value });
   };
 
-  handleExpenses = ({ expenses, value, description,
+  handleExpenses = ({ value, description,
     currency, method, tag }) => {
-    const { dispatch, data } = this.props;
-
-    dispatch(fetchCurrencies());
+    const { dispatch, expenses } = this.props;
 
     const expensesData = {
       id: expenses.length,
@@ -36,10 +35,9 @@ class WalletForm extends Component {
       currency,
       method,
       tag,
-      exchangeRates: data,
     };
 
-    dispatch(saveExpenses(expensesData));
+    dispatch(fetchData(expensesData));
 
     this.setState({
       value: '',
@@ -47,13 +45,13 @@ class WalletForm extends Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      expenses: [...expenses, expensesData],
     });
   };
 
   render() {
     const { currencies: mapCurrencies } = this.props;
     const { value, description } = this.state;
+
     return (
       <form>
         <input
@@ -106,7 +104,6 @@ class WalletForm extends Component {
         >
           Adicionar Despesa
         </button>
-
       </form>
     );
   }
@@ -114,6 +111,7 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => (
   { currencies: state.wallet.currencies,
+    expenses: state.wallet.expenses,
     data: state.wallet.data,
     edit: state.wallet.edit,
     idToEdit: state.wallet.idToEdit,
@@ -129,22 +127,8 @@ WalletForm.defaultProps = {
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string,
-      codein: PropTypes.string,
-      name: PropTypes.string,
-      high: PropTypes.string,
-      low: PropTypes.string,
-      varBid: PropTypes.string,
-      pctChange: PropTypes.string,
-      bid: PropTypes.string,
-      ask: PropTypes.string,
-      timestamp: PropTypes.string,
-      create_date: PropTypes.string,
-    }),
-  ),
-};
+  data: PropTypes.any,
+}.isRequired;
 
 // PropTypes.shape({
 //   code: PropTypes.string,
