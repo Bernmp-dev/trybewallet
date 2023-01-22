@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies } from '../redux/actions/saveCurrencies';
-import { editExpense } from '../redux/actions/editExpenses';
+// import { editExpense } from '../redux/actions/editExpenses';
 import { fetchEdit } from '../redux/actions/OverwriteExpense';
 
 class EditForm extends Component {
@@ -47,12 +47,12 @@ class EditForm extends Component {
     const itemIndex = expenses.findIndex((obj) => obj.id === idToEdit);
 
     dispatch(fetchEdit(expenses, expensesData, itemIndex));
-    dispatch(editExpense(0, false));
+    // dispatch(editExpense(0, false));
   };
 
   render() {
     const { currencies: mapCurrencies } = this.props;
-    const { value, description, method, tag, currency } = this.props;
+    const { value, description, method, tag, currency } = this.state;
 
     return (
       <form>
@@ -105,6 +105,7 @@ class EditForm extends Component {
         </select>
         <button
           type="button"
+          data-testid="button-input"
           onClick={ () => this.closeEdit(this.state) }
         >
           Editar Despesa

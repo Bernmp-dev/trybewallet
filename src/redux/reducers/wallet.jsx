@@ -37,7 +37,8 @@ const wallet = (state = INITIAL_STATE, action) => {
   case OVERWRITE_EXPENSE:
     return {
       ...state,
-      expenses: action.expenses,
+      expenses: [...action.expenses],
+      editor: action.editor,
     };
   default:
     return state;

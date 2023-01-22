@@ -24,7 +24,7 @@ class Table extends Component {
     const { expenses } = this.props;
 
     const fix = (number) => Number(number).toFixed(2);
-    const mil = 1000;
+    const mil = 10000;
     const random = Math.floor(Math.random() * mil) + 1;
 
     return (
@@ -43,8 +43,8 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((item) => (
-            <tr key={ Number(item.id) + random }>
+          {expenses.map((item, i) => (
+            <tr key={ random + i }>
               <td>{item.description}</td>
               <td>{item.tag}</td>
               <td>{item.method}</td>

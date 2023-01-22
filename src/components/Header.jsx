@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const defEmail = localStorage.getItem('email');
-    const { expenses, email = defEmail } = this.props;
+    // const defEmail = localStorage.getItem('email');
+    const { expenses, email } = this.props;
 
     const result = expenses.reduce((acc, curr) => {
       acc += curr.value * curr.exchangeRates[curr.currency].ask;
@@ -35,7 +35,7 @@ const mapStateToProps = (state) => (
 export default connect(mapStateToProps)(Header);
 
 Header.defaultProps = {
-  email: localStorage.getItem('email') || 'teste@trybe.com',
+  email: localStorage.getItem('email') || '',
 };
 
 Header.propTypes = {

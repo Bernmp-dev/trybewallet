@@ -113,7 +113,7 @@ const mapStateToProps = (state) => (
   { currencies: state.wallet.currencies,
     expenses: state.wallet.expenses,
     data: state.wallet.data,
-    edit: state.wallet.edit,
+    editor: state.wallet.editor,
     idToEdit: state.wallet.idToEdit,
   });
 
