@@ -9,6 +9,10 @@ const emailInput = 'email-input';
 const passWordInput = 'password-input';
 const myEmail = 'emailDeTeste@trybe.com';
 const myPassword = '123456';
+const totalField = 'total-field';
+const currencyInput = 'currency-input';
+const descInput = 'description-input';
+const valueInput = 'value-input';
 
 describe('Testes para inputs do "EditForm"', () => {
   test('Testar se iputs estao no documento', async () => {
@@ -31,9 +35,9 @@ describe('Testes para inputs do "EditForm"', () => {
       userEvent.click(editButton[0]);
     });
 
-    const editValue = screen.getByTestId('value-input');
-    const editDescri = screen.getByTestId('description-input');
-    const editCurrency = screen.getByTestId('currency-input');
+    const editValue = screen.getByTestId(valueInput);
+    const editDescri = screen.getByTestId(descInput);
+    const editCurrency = screen.getByTestId(currencyInput);
     const editMethod = screen.getByTestId('method-input');
     const editTag = screen.getByTestId('tag-input');
     const endEdit = screen.getByRole('button', { name: /editar despesa/i });
@@ -94,7 +98,7 @@ describe('Testes para a página de Carteira', () => {
     const headerProfile = screen.getByTestId('email-field');
     expect(headerProfile).toHaveTextContent('');
 
-    const headerTotalValue = screen.getByTestId('total-field');
+    const headerTotalValue = screen.getByTestId(totalField);
     expect(headerTotalValue).toHaveTextContent('0.00');
 
     const currency = screen.getByTestId('header-currency-field');
@@ -123,10 +127,10 @@ describe('Testes para a página de Carteira', () => {
     act(() => { history.push('/carteira'); });
     expect(history.location.pathname).toBe('/carteira');
 
-    const campoValor = screen.getByTestId('value-input');
-    const campoDescricao = screen.getByTestId('description-input');
+    const campoValor = screen.getByTestId(valueInput);
+    const campoDescricao = screen.getByTestId(descInput);
     const addbutton = screen.getByRole('button', { name: /adicionar despesa/i });
-    const totalValue = screen.getByTestId('total-field');
+    const totalValue = screen.getByTestId(totalField);
 
     userEvent.type(campoValor, '1');
     userEvent.type(campoDescricao, 'Bala');
@@ -200,13 +204,13 @@ describe('Testes para a página de Carteira', () => {
     act(() => { history.push('/carteira'); });
     expect(history.location.pathname).toBe('/carteira');
 
-    const editValue = screen.getByTestId('value-input');
-    const editDescri = screen.getByTestId('description-input');
-    const editCurrency = screen.getByTestId('currency-input');
+    const editValue = screen.getByTestId(valueInput);
+    const editDescri = screen.getByTestId(descInput);
+    const editCurrency = screen.getByTestId(currencyInput);
     const editMethod = screen.getByTestId('method-input');
     const editTag = screen.getByTestId('tag-input');
     const addbutton = screen.getByRole('button', { name: /adicionar despesa/i });
-    const totalValue = screen.getByTestId('total-field');
+    const totalValue = screen.getByTestId(totalField);
 
     userEvent.type(editValue, '1');
     userEvent.type(editDescri, 'Bala');
@@ -250,7 +254,7 @@ describe('Testes para a página de Carteira', () => {
     const addbutton = screen.getByRole('button', { name: /adicionar despesa/i });
     userEvent.click(addbutton);
 
-    const currenciesSelect = screen.getByTestId('currency-input');
+    const currenciesSelect = screen.getByTestId(currencyInput);
     await waitFor(() => {
       expect(currenciesSelect.childElementCount).toBe(15);
     });
@@ -260,10 +264,10 @@ describe('Testes para a página de Carteira', () => {
     act(() => { history.push('/carteira'); });
     expect(history.location.pathname).toBe('/carteira');
 
-    const campoValor = screen.getByTestId('value-input');
-    const campoDescricao = screen.getByTestId('description-input');
+    const campoValor = screen.getByTestId(valueInput);
+    const campoDescricao = screen.getByTestId(descInput);
     const addbutton = screen.getByRole('button', { name: /adicionar despesa/i });
-    const totalValue = screen.getByTestId('total-field');
+    const totalValue = screen.getByTestId(totalField);
 
     userEvent.type(campoValor, '1');
     userEvent.type(campoDescricao, 'Bala');
