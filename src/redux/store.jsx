@@ -11,7 +11,7 @@ const store = createStore(
 );
 
 if (window.Cypress) {
-  window.Storage = store;
+  window.store = store;
 }
 
 export default store;
